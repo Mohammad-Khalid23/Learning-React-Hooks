@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext, useReducer } from 'react';
+import { Greeting, Form } from './components'
 import './App.css';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as commentActions from './actions';
 
 const themes = {
   light: {
@@ -19,7 +22,12 @@ const addTheme = (type) => {
   return ThemeContext;
 }
 
-function App() {
+function App(props) {
+  console.log("---------Props---------",props);
+
+  // const { id, content } = props.comment;
+  const { updateComment, deleteComment } = props.actions;
+
 
   const [heading, setHeading] = useState('Khalid');
   const [themeType, setTheme] = useState('light');
@@ -69,21 +77,33 @@ function App() {
   
 
 
-
+  const editComment = () => props.actions.updateComment();
+  const removeComment = () => props.actions.deleteComment();
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Learning React Hooks</h1>
-        <h2>My name is {heading}</h2>
-        <input placeholder="Enter your name" onChange={(e) => setHeading(e.target.value)} />
-
-        <button onClick={()=>changeTheme(state)} style={{ marginTop:'20px', background: theme.background, color: theme.foreground }}>
-          I am styled by Hooks {state} theme context!
-        </button>
+        <Greeting />
+        <Form />
+        <button type="button" onClick={editComment}>Edit Comment</button>
+        <button type="button" onClick={removeComment}>Remove Comment</button>
       </header>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = function(state) {
+  console.log("redux store",state);
+  return {
+    profile: state,
+    loggedIn: state
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(commentActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
