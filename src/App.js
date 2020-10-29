@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext, useReducer } from 'react';
 import { Greeting, Form } from './components'
-import './App.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as commentActions from './actions';
+import './App.css';
 
 const themes = {
   light: {
@@ -23,31 +23,22 @@ const addTheme = (type) => {
 }
 
 function App(props) {
-  console.log("---------Props---------",props);
-
-  // const { id, content } = props.comment;
-  const { updateComment, deleteComment } = props.actions;
-
-
-  const [heading, setHeading] = useState('Khalid');
   const [themeType, setTheme] = useState('light');
 
-/* React Hooks userContext*/
+  /* React Hooks userContext*/
   const theme = useContext(addTheme(themeType));
-  
-  
-  
-/* React Hooks userEffect start*/
+
+  /* React Hooks userEffect start*/
   //Use effect is work as a componentDidMount , componentDidUpdate and componentWillUnMount
-  useEffect(()=>{
+  useEffect(() => {
     //worked as componentDidMount
     console.log("Component Did Mount");
-    return ()=>{
+    return () => {
       //worked as componentDidUpdate
       console.log("Component Did Update or componentWillUnMount");
     }
-  });
-/* React Hooks userEffect end*/
+  }, []);
+  /* React Hooks userEffect end*/
 
 
   /* React Hooks userReducer start*/
@@ -65,16 +56,16 @@ function App(props) {
         return 'light';
     }
   }
-  
+
   //useReducer is almost work as redux reducer
-  const [state,dispatch] = useReducer(reducer,themeType);
+  const [state, dispatch] = useReducer(reducer, themeType);
 
   const changeTheme = (_Type) => {
-    console.log('theme _Type onClick',_Type);
+    console.log('theme _Type onClick', _Type);
     dispatch({ type: _Type });
   }
   /* React Hooks userReducer end*/
-  
+
 
 
   const editComment = () => props.actions.updateComment();
@@ -92,8 +83,8 @@ function App(props) {
   );
 }
 
-const mapStateToProps = function(state) {
-  console.log("redux store",state);
+const mapStateToProps = function (state) {
+  console.log("redux store", state);
   return {
     profile: state,
     loggedIn: state
@@ -106,4 +97,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

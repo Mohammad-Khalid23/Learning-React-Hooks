@@ -1,21 +1,18 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react';
+import React, { useEffect } from 'react';
 
 
 function Greeting() {
-
-  const [heading, setHeading] = useState('Khalid');
-
-/* React Hooks userEffect start*/
+  /* React Hooks userEffect start*/
   //Use effect is work as a componentDidMount , componentDidUpdate and componentWillUnMount
-  useEffect(()=>{
+  useEffect(() => {
     //worked as componentDidMount
     console.log("Component Did Mount");
-    return ()=>{
+    return () => {
       //worked as componentDidUpdate
       console.log("Component Did Update or componentWillUnMount");
     }
-  });
-/* React Hooks userEffect end*/  
+  }, []);
+  /* React Hooks userEffect end*/
 
 
 
